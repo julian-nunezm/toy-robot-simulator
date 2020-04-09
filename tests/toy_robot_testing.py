@@ -1,5 +1,7 @@
 from unittest import TestCase
 
+from model.toy_robot import Robot
+
 
 class ToyRobotValidMovementTest(TestCase):
 
@@ -90,7 +92,7 @@ class ToyRobotCommandsTest(TestCase):
 
     # Validates that a non-valid facing value given as a parameter creates a warning
     def test_non_valid_facing(self):
-        command = 'PLACE 4,2,BEHIND'
+        command = 'PLACE 4,2,NORTH-EAST'
         robot = Robot()
         self.assertFalse(robot.read_command(command))
         self.assertIsNotNone(robot.warning)
@@ -99,21 +101,21 @@ class ToyRobotCommandsTest(TestCase):
     def test_valid_place_function_coordinates(self):
         robot = Robot(x=3, y=3, facing='EAST')
         self.assertEqual(robot.get_location(), (3,3))
-        self.assertEqual(robot.where_is_facing(), 'EAST')
+        self.assertEqual(robot.get_facing(), 'EAST')
         self.assertIsNone(robot.warning)
     
     # Validates that the robot is not placed and there is a warning
     def test_non_valid_place_function_coordinates(self):
         robot = Robot(x=-1, y=5, facing='EAST')
         self.assertEqual(robot.get_location(), (None, None))
-        self.assertIsNone(robot.where_is_facing())
+        self.assertIsNone(robot.get_facing())
         self.assertIsNotNone(robot.warning)
     
     # Validates that the function creates and places the robot
     def test_place_function(self):
         robot = Robot(x=4, y=4, facing='EAST')
         self.assertTrue(robot.get_location(), (4,4))
-        self.assertTrue(robot.where_is_facing(), 'EAST')
+        self.assertTrue(robot.get_facing(), 'EAST')
 
     # Validates that the function moves the robot one position towards its facing value
     def test_move_function(self):
@@ -126,14 +128,14 @@ class ToyRobotCommandsTest(TestCase):
         robot = Robot(x=4, y=4, facing='WEST')
         robot.left()
         self.assertTrue(robot.get_location(), (4,4))
-        self.assertTrue(robot.where_is_facing(), 'SOUTH')
+        self.assertTrue(robot.get_facing(), 'SOUTH')
     
     # Validates that the function rotates the robot to right and does not make it to advance
     def test_right_function(self):
         robot = Robot(x=0, y=1, facing='NORTH')
         robot.right()
         self.assertTrue(robot.get_location(), (0,1))
-        self.assertTrue(robot.where_is_facing(), 'EAST')
+        self.assertTrue(robot.get_facing(), 'EAST')
     
     # Validates that the function returns the information about where the robot is placed
     def test_report_function(self):
@@ -145,3 +147,10 @@ class ToyRobotCommandsTest(TestCase):
         report = robot.report()
         expected_report = '2,0,EAST'
         self.assertTrue(report, expected_report)
+    
+class ToyRobotUtilFunctionsTest(TestCase):
+
+    # Validates that the util function returns the correct coordinates from the robot location
+    def test_get_location_function(self):
+        robot = Robot(x=0, y=1, facing='NORTH')
+        self.assertTrue(robot.get_location(), (0,1))
