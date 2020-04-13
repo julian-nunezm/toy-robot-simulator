@@ -102,8 +102,9 @@ class RobotControllerTest(TestCase):
     # Validates that the first command is PLACE
     def test_first_command_place(self):
         first_command = 'PLACE 0,0,EAST'
+        robot = Robot()
         controller = Controller()
-        self.assertTrue(controller.read_command(first_command))
+        self.assertTrue(controller.read_command(robot, first_command))
     
     # Validates that the first command is not PLACE
     def test_first_command_not_place(self):
@@ -113,27 +114,31 @@ class RobotControllerTest(TestCase):
             'RIGHT',
             'REPORT'
         ]
+        robot = Robot()
         controller = Controller()
         for command in non_valid_first_commands:
-            self.assertFalse(controller.read_command(command))
+            self.assertFalse(controller.read_command(robot, command))
 
     # Validates that any non-defined command is not a valid one
     def test_non_valid_command(self):
         non_valid_command = 'JUMP'
+        robot = Robot()
         controller = Controller()
-        self.assertFalse(controller.read_command(non_valid_command))
+        self.assertFalse(controller.read_command(robot, non_valid_command))
 
     # Validates that a non-valid facing value given as a parameter returns False
     def test_non_valid_facing(self):
         command = 'PLACE 4,2,NORTH-EAST'
+        robot = Robot()
         controller = Controller()
-        self.assertFalse(controller.read_command(command))
+        self.assertFalse(controller.read_command(robot, command))
     
     # Validates that the robot is not placed with wrong coordinates
     def test_non_valid_place_function_coordinates(self):
         command = 'PLACE -1,5,SOUTH'
+        robot = Robot()
         controller = Controller()
-        self.assertFalse(controller.read_command(command))
+        self.assertFalse(controller.read_command(robot, command))
     
     # Validates that the move command works properly
     def test_move_command(self):
@@ -141,10 +146,11 @@ class RobotControllerTest(TestCase):
             'PLACE 0,0,EAST',
             'MOVE',
         ]
+        robot = Robot()
         controller = Controller()
         for command in commands:
             if command == 'PLACE 0,0,EAST':
-                self.assertTrue(controller.read_command(command))
+                self.assertTrue(controller.read_command(robot, command))
             #if command == 'MOVE':
             #    self.assertTrue(controller.read_command(command))
     

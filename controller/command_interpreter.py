@@ -3,10 +3,9 @@ from model.toy_robot import Robot
 
 class Controller():
 
-    def read_command(self, command): # TODO: Change to function dictionary
+    def read_command(self, robot, command): # TODO: Change to function dictionary
         split_command = command.upper().split()
         short_command = split_command[0]
-        robot = Robot()
         if short_command in robot.COMMAND_OPTIONS:
             # PLACE Command
             if short_command == 'PLACE':
@@ -27,5 +26,10 @@ class Controller():
 
                 # REPORT Command
                 if short_command == 'LEFT':
-                    robot.left()
+                    print(robot.report())
         return False
+    
+    def play(self, commands):
+        robot = Robot()
+        for command in commands:
+            self.read_command(robot, command)
