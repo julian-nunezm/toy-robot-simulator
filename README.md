@@ -1,6 +1,21 @@
 Toy Robot Simulator
 ===================
 
+How to run it?
+--------------
+
+1. Create a new local folder for this project.
+2. Clone the repository in that new folder by opening a terminal and typing:
+    `$ git clone https://github.com/julian-nunezm/toy-robot-simulator`
+3. Go to *toy-robot-simulator* in the terminal
+4. Create a virtual environment by typing:
+    `$ pipenv shell`
+5. Run the project by typing:
+    `$ python main.py`
+
+If you want to add or remove any test file, simply do it the data folder and update the `data_files` array in *main.py*.
+
+
 Description
 -----------
 
