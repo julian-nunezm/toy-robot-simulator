@@ -69,14 +69,22 @@ class Robot():
         return False
 
     def left(self):
-        index = self.FACING_OPTIONS.index(self._facing)
-        new_index = (index - 1) % len(self.FACING_OPTIONS)
-        self._facing = self.FACING_OPTIONS[new_index]
+        try:
+            index = self.FACING_OPTIONS.index(self._facing)
+            new_index = (index - 1) % len(self.FACING_OPTIONS)
+            self._facing = self.FACING_OPTIONS[new_index]
+            return True
+        except:
+            return False
     
     def right(self):
-        index = self.FACING_OPTIONS.index(self._facing)
-        new_index = (index + 1) % len(self.FACING_OPTIONS)
-        self._facing = self.FACING_OPTIONS[new_index]
+        try:
+            index = self.FACING_OPTIONS.index(self._facing)
+            new_index = (index + 1) % len(self.FACING_OPTIONS)
+            self._facing = self.FACING_OPTIONS[new_index]
+            return True
+        except:
+            return False
     
     def report(self):
         return f'{self._x},{self._y},{self._facing}'
