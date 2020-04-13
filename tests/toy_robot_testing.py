@@ -3,7 +3,8 @@ from unittest import TestCase
 from controller.command_interpreter import Controller
 from model.toy_robot import Robot
 
-# Tests Model
+
+# Tests the Robot Model
 class RobotModelTest(TestCase):
 
     # Validates that the robot object is created with no parameters
@@ -141,17 +142,19 @@ class RobotControllerTest(TestCase):
         self.assertFalse(controller.read_command(robot, command))
     
     # Validates that the move command works properly
-    def test_move_command(self):
+    def test_command_series(self):
         commands = [
             'PLACE 0,0,EAST',
+            'LEFT',
             'MOVE',
+            'RIGHT',
+            'MOVE',
+            'REPORT'
         ]
         robot = Robot()
         controller = Controller()
         for command in commands:
-            if command == 'PLACE 0,0,EAST':
+            if command != 'REPORT':
                 self.assertTrue(controller.read_command(robot, command))
-            #if command == 'MOVE':
-            #    self.assertTrue(controller.read_command(command))
-    
-    # TODO: Test LEFT, RIGHT and REPORT from controller.read_command
+            else:
+                self.assertEqual(controller.read_command(robot, command), '1,1,EAST')
