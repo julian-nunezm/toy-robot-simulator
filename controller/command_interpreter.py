@@ -3,30 +3,26 @@ from model.toy_robot import Robot
 
 class Controller():
 
-    def read_command(self, robot, command): # TODO: Change to function dictionary
+    def read_command(self, robot, command):
         split_command = command.upper().split()
         short_command = split_command[0]
         if short_command in robot.COMMAND_OPTIONS:
-            # PLACE Command
+            # PLACE Command - It's valid at any moment
             if short_command == 'PLACE':
-                return robot.place(split_command[1].split(','))
+                parameters = split_command[1].split(',')
+                return robot.place(parameters)
 
-            if robot.get_x() and robot.get_y():
-                # MOVE Command
-                if short_command == 'MOVE':
-                    return robot.move()
+            # Other commands. Will be run only if a PLACE command has set X and Y coordinates.
+            # Otherwise, they will be skipped
+            if robot.get_x() is not None and robot.get_y() is not None:
+                # Calls the validated method
+                method_to_call = getattr(robot, short_command.lower())
+                result = method_to_call()
 
-                # LEFT Command
-                if short_command == 'LEFT':
-                    robot.left()
-
-                # RIGHT Command
-                if short_command == 'RIGHT':
-                    robot.right()
-
-                # REPORT Command
-                if short_command == 'LEFT':
-                    print(robot.report())
+                # Only a REPORT command will print the result
+                if short_command == 'REPORT':
+                    print(result)
+                return result
         return False
     
     def play(self, commands):
